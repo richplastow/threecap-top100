@@ -53,6 +53,8 @@
   <a href="https://github.com/richplastow/threecap-top100">Repo</a> &nbsp;
   <a href="http://richplastow.com/threecap-top100/">Demo</a>
 </p>
+<button id="restart-preview">Restart Preview</button>
+<pre id="cli-help"></pre>
 
 
 
@@ -88,14 +90,6 @@
 
 <!-- SCRIPTS -->
 
-<!-- Load the data -->
-<script>
-  window.registerData = function (data) {
-      window.worldcities = data
-  }
-</script>
-<script src="data/worldcities.js"></script>
-
 <!-- THREE.js -->
 <script src="lib/three.min.js"></script>
 
@@ -110,13 +104,16 @@
 <script src="lib/RGBShiftShader.js"></script>
 
 <!-- Threecap -->
-<script src="lib/threecap.js"></script>
+<script src="lib/threecap/threecap.js"></script>
 
 <!-- TWEEN.js -->
 <script src="lib/tween.min.js"></script>
 
-<!-- The Top100 App -->
-<script src="main/boot.js"></script>
+<!-- Boot the App -->
+<script type="module">
+    import { boot } from './main/boot.js'
+    boot()
+</script>
 
 
 
