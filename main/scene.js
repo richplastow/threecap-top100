@@ -18,7 +18,6 @@ const
     //// Object3Ds.
   , globe = new THREE.Object3D()
   , sprites = []
-  , fog = new THREE.FogExp2(0x002080, 0.004) // RT: rgb(0, 90, 83)
 
     //// Textures.
   , usualSpriteTexture = new THREE.CanvasTexture(
@@ -44,7 +43,7 @@ const
         Object.assign({}, spriteMaterialTemplate, {
             fog: false
           , map: top100SpriteTexture
-          , opacity: config.top100SpriteOpacityBegin
+          , opacity: config.top100SpriteOpacityBeginEnd
         })
     )
 
@@ -61,6 +60,8 @@ const
   , captureui = new THREEcapUI(capture)
 
 
+scene.fog = new THREE.FogExp2(0x002080, 0.004) // RT: rgb(0, 90, 83)
+
 
 
 let module; export default module = {
@@ -73,6 +74,7 @@ let module; export default module = {
   , captureui
 
   , usualSpriteMaterial
+  , top100SpriteMaterial
 
     //// Sets up the scene - should be called only once.
   , init () {
@@ -87,15 +89,23 @@ let module; export default module = {
         scene.add(globe)
         document.body.appendChild(renderer.domElement)
 
-        //// Add a sprite for every location in the data.
+        //// Add a ‘usual’ sprite for every location in the data.
         for (let i=1; i<data.length; i++) { // i=1, ignore header line
-            const [ pop, city, x, y, z ] = data[i]
-            const scale = Math.log(pop) / 8 // eg 2.27 for a million, 1.15 for 10000
-            let sprite = new THREE.Sprite(usualSpriteMaterial)
-            sprite.position.set(x, y, z)
-            sprite.scale.set(scale, scale, scale)
-            sprites.push(sprite)
-            globe.add(sprite)
+            const [ pop, city, x, y, z, lat, lon, overtourism ] = data[i]
+            const scale = ( Math.log(pop) / 8 ) // eg 2.27 for a million, 1.15 for 10000
+              + overtourism // show cities suffering from overtourism bigger
+            const usualSprite = new THREE.Sprite(usualSpriteMaterial)
+            usualSprite.position.set(x, y, z)
+            usualSprite.scale.set(scale, scale, scale)
+            sprites.push(usualSprite)
+            globe.add(usualSprite)
+            if (overtourism) {
+                const top100Sprite = new THREE.Sprite(top100SpriteMaterial)
+                top100Sprite.position.set(x, y, z)
+                top100Sprite.scale.set(scale, scale, scale)
+                sprites.push(top100Sprite)
+                globe.add(top100Sprite)
+            }
         }
 
     }

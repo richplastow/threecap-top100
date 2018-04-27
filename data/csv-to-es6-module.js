@@ -1,36 +1,55 @@
 const
     fs = require('fs')
-  , csv = (''+fs.readFileSync('simplemaps-worldcities-basic.csv')).split('\n').slice(1)
-  , jsonp = [
+  , csv1 = (''+fs.readFileSync('simplemaps-worldcities-basic.csv')).split('\n').slice(1)
+  , csv2 = (''+fs.readFileSync('travelbird-most-welcoming-cities.csv')).split('\n').slice(1)
+  , es6 = [
         '//// DATA'
       , ''
       , 'let data; export default data = ['
-      , "    [ 'pop', 'city', 'x', 'y', 'z', 'lat', 'lon' ]"
+      , "    [ 'pop', 'city', 'x', 'y', 'z', 'lat', 'lon', 'overtourism' ]"
     ]
+
+    //// By city name, eg `{ London:7.06, ...}`
+  , overtourismScores = {}
 
     //// In `pop` order eg `{ GBR:[ ['London', ...],['Birmingham', ...] ], ...}`
   , citiesBySize = {}
 
+let
+    totalOvertourismScore = 0 // used to find the average
+  , averageOvertourismScore
+
+//// Parse the overtourism scores of cities listed in
+//// https://travelbird.nl/most-welcoming-cities/
+for (let i=0; i<csv2.length; i++) {
+    const line = csv2[i].split(',')
+    if (1 === line.length) continue // eg newline at end of csv file
+    let [ welcomingrank, city_ascii, country, expert, port, safety, happiness, english
+        , openness, overtourism, welcomingscore ] = line
+    overtourism = 10 - overtourism // make Venice and Barcelona high scoring
+    overtourismScores[city_ascii] = { overtourism, country }
+    totalOvertourismScore += overtourism
+}
+averageOvertourismScore = totalOvertourismScore / 100
+
+
 //// Build `citiesBySize`, sorting each city by population, keeping the biggest.
-for (let i=0; i<csv.length; i++) {
-    const line = csv[i].split(',')
+for (let i=0; i<csv1.length; i++) {
+    const line = csv1[i].split(',')
     if (1 === line.length) continue // eg newline at end of csv file
     let [ city, city_ascii, lat, lon, pop, country, iso2, iso3 ] = line
     // if (10000 > pop) continue // ignore smaller cities
     iso3 = 'United States of America' === iso3 ? 'USA' : iso3 // simplemaps error
-
-// const city_iso3 = `${city}_${iso3}`
-// if (
-//     'London_GBR' !== city_iso3
-//  && 'Paris_FRA' !== city_iso3
-//  && 'New York_USA' !== city_iso3
-// ) continue
-// if ('USA' !== iso3) continue
-
     citiesBySize[iso3] = citiesBySize[iso3] || []
     const { x, y, z } = latLonToXYZ(lat, lon, 100)
+    let overtourism = 0
+    if (overtourismScores[city_ascii] && overtourismScores[city_ascii].country === country) {
+        if (averageOvertourismScore < overtourismScores[city_ascii].overtourism)
+            overtourism = overtourismScores[city_ascii].overtourism - averageOvertourismScore
+        delete overtourismScores[city_ascii]
+    }
     citiesBySize[iso3].push([
-        pop, city, x, y, z, lat, lon
+        pop, city, x, y, z, lat, lon, overtourism
     ])
 }
 for (let iso3 in citiesBySize) {
@@ -39,26 +58,24 @@ for (let iso3 in citiesBySize) {
     // citiesBySize[iso3] = citiesBySize[iso3].slice(0, biggestNum)
 }
 
-//// Build the output `jsonp`.
+
+//// Build the output `es6` module.
 for (let iso3 in citiesBySize) {
-    jsonp.push(`// ${iso3}`)
+    es6.push(`// ${iso3}`)
     for (let i=0; i<citiesBySize[iso3].length; i++) {
-        const [ pop, city, x, y, z, lat, lon ] = citiesBySize[iso3][i]
-        const city_iso3 = `${city}_${iso3}`
-        // if (
-        //     'Detroit_USA' !== city_iso3
-        //  && 'Los Angeles_USA' !== city_iso3
-        //  && 'New York_USA' !== city_iso3
-        // ) continue
+        const [ pop, city, x, y, z, lat, lon, overtourism ] = citiesBySize[iso3][i]
         // if (10000 > pop) continue // ignore smaller cities
-        jsonp.push(
-            `  , [ ${pop}, '${city.replace(/'/g,'’')}', ${x},${y},${z}, ${lat},${lon} ]`
+        // let overtourism = ~~(Math.random()*1000)
+        // overtourism = 100 < overtourism ? 0 : overtourism
+        es6.push(
+            `  , [ ${pop}, '${city.replace(/'/g,'’')}'`
+          + `, ${x},${y},${z}, ${lat},${lon}, ${overtourism} ]`
         )
     }
 }
 
-jsonp.push(']')
-fs.writeFileSync( 'worldcities.js', jsonp.join('\n') )
+es6.push(']')
+fs.writeFileSync( 'worldcities.js', es6.join('\n') )
 
 
 

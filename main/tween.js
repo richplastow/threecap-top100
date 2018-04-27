@@ -1,5 +1,5 @@
 //// TWEEN
-import config from  './config.js'
+import config from './config.js'
 import scene from './scene.js'
 import state from './state.js'
 
@@ -33,9 +33,9 @@ const tweenDefs = [
         } }
     }
   , { // camera position’s latitude and longitude
-        beginState: { lat:0, lon:0 }
+        beginState: { lat:10, lon:-100 }
       , currState:  {}
-      , endState:   { lat:50, lon:50 }
+      , endState:   { lat:50, lon:20 }
       , beginFrac:  0 // fraction of whole duration, so `0`...
       , endFrac:    1 // ...`1` fills the entire sequence
       , tween:      null
@@ -67,6 +67,21 @@ const tweenDefs = [
         }
       , onUpdate:   function (def) { return function () {
             scene.usualSpriteMaterial.opacity = def.currState.usualOpacity
+        } }
+    }
+  , { // top100 city sprites UP
+        beginState: { top100Opacity: config.top100SpriteOpacityBeginEnd }
+      , currState:  {}
+      , endState:   { top100Opacity: config.top100SpriteOpacityFlying  }
+      , beginFrac:  0.6
+      , endFrac:    0.9
+      , tween:      null
+      , easing:     TWEEN.Easing.Cubic.Out
+      , onReset:    function (def) {
+            scene.top100SpriteMaterial.opacity = config.top100SpriteOpacityBeginEnd
+        }
+      , onUpdate:   function (def) { return function () {
+            scene.top100SpriteMaterial.opacity = def.currState.top100Opacity
         } }
     }
 ]
