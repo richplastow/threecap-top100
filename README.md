@@ -4,7 +4,7 @@
 [threecap](https://github.com/jbaicoianu/threecap)
 
 + __Last update:__  2018/04/27
-+ __Version:__      1.0.0
++ __Version:__      1.0.1
 
 [Repo](https://github.com/richplastow/threecap-top100) &nbsp;
 [Demo](http://richplastow.com/threecap-top100/)  
