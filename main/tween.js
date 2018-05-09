@@ -70,18 +70,32 @@ const tweenDefs = [
         } }
     }
   , { // top100 city sprites UP
-        beginState: { top100Opacity: config.top100SpriteOpacityBeginEnd }
+        beginState: {
+            top100Opacity: config.top100SpriteOpacityBeginEnd
+          , top100Scale:   config.top100SpriteScaleBeginEnd
+        }
       , currState:  {}
-      , endState:   { top100Opacity: config.top100SpriteOpacityFlying  }
+      , endState:   {
+            top100Opacity: config.top100SpriteOpacityFlying
+          , top100Scale:   config.top100SpriteScaleFlying
+        }
       , beginFrac:  0.6
       , endFrac:    0.9
       , tween:      null
       , easing:     TWEEN.Easing.Cubic.Out
       , onReset:    function (def) {
             scene.top100SpriteMaterial.opacity = config.top100SpriteOpacityBeginEnd
+            scene.top100Sprites.forEach( top100Sprite => {
+                let scale = top100Sprite.basicScale * config.top100SpriteScaleBeginEnd
+                top100Sprite.scale.set(scale, scale, scale)
+            })
         }
       , onUpdate:   function (def) { return function () {
             scene.top100SpriteMaterial.opacity = def.currState.top100Opacity
+            scene.top100Sprites.forEach( top100Sprite => {
+                let scale = top100Sprite.basicScale * def.currState.top100Scale
+                top100Sprite.scale.set(scale, scale, scale)
+            })
         } }
     }
 ]

@@ -42,6 +42,8 @@ let module; export default module = {
   , usualSpriteOpacityFlying    : 1
   , top100SpriteOpacityBeginEnd : 0
   , top100SpriteOpacityFlying   : 1
+  , top100SpriteScaleBeginEnd   : 0
+  , top100SpriteScaleFlying     : 1.2
 
   , pixelRatio: window.devicePixelRatio || 0
 

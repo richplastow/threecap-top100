@@ -18,6 +18,7 @@ const
     //// Object3Ds.
   , globe = new THREE.Object3D()
   , sprites = []
+  , top100Sprites = []
 
     //// Textures.
   , usualSpriteTexture = new THREE.CanvasTexture(
@@ -76,6 +77,8 @@ let module; export default module = {
   , usualSpriteMaterial
   , top100SpriteMaterial
 
+  , top100Sprites
+
     //// Sets up the scene - should be called only once.
   , init () {
 
@@ -94,17 +97,20 @@ let module; export default module = {
             const [ pop, city, x, y, z, lat, lon, overtourism ] = data[i]
             const scale = ( Math.log(pop) / 8 ) // eg 2.27 for a million, 1.15 for 10000
               + overtourism // show cities suffering from overtourism bigger
-            const usualSprite = new THREE.Sprite(usualSpriteMaterial)
-            usualSprite.position.set(x, y, z)
-            usualSprite.scale.set(scale, scale, scale)
-            sprites.push(usualSprite)
-            globe.add(usualSprite)
             if (overtourism) {
                 const top100Sprite = new THREE.Sprite(top100SpriteMaterial)
                 top100Sprite.position.set(x, y, z)
                 top100Sprite.scale.set(scale, scale, scale)
+                top100Sprite.basicScale = scale
                 sprites.push(top100Sprite)
+                top100Sprites.push(top100Sprite)
                 globe.add(top100Sprite)
+            } else {
+                const usualSprite = new THREE.Sprite(usualSpriteMaterial)
+                usualSprite.position.set(x, y, z)
+                usualSprite.scale.set(scale, scale, scale)
+                sprites.push(usualSprite)
+                globe.add(usualSprite)
             }
         }
 
