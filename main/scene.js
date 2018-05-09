@@ -16,11 +16,23 @@ const
         35, config.previewWidth/config.previewHeight, 0.1, 1000)
 
     //// Object3Ds.
-  , globe = new THREE.Object3D()
+  , globe = new THREE.Object3D() // dot-sprites are attached to this
+  , earthGeometry = new THREE.SphereGeometry(100, 64, 64)
+  , cloudGeometry = new THREE.SphereGeometry(105, 64, 64)
+  , starGeometry  = new THREE.SphereGeometry(500, 32, 32)
   , sprites = []
   , top100Sprites = []
 
+    //// Lights.
+  , ambientLight = new THREE.AmbientLight(0x888888)
+  , directionalLight = new THREE.DirectionalLight(0xcccccc, 1)
+
     //// Textures.
+  , earthMap = THREE.ImageUtils.loadTexture('images/8k_earth_daymap.jpg')
+  , earthBumpMap = THREE.ImageUtils.loadTexture('images/8k_earth_normal_map.jpg')
+  , earthSpecularMap = THREE.ImageUtils.loadTexture('images/8k_earth_specular_map.jpg')
+  , cloudMap = THREE.ImageUtils.loadTexture('images/8k_earth_clouds.jpg')
+  , starMap = THREE.ImageUtils.loadTexture('images/8k_stars_milky_way.jpg')
   , usualSpriteTexture = new THREE.CanvasTexture(
         document.getElementById('usual-sprite')
     )
@@ -29,6 +41,24 @@ const
     )
 
     //// Materials.
+  , earthMaterial = new THREE.MeshPhongMaterial({
+        map: earthMap
+      , bumpMap: earthBumpMap
+      , bumpScale: 10
+      , specularMap: earthSpecularMap
+      , specular: new THREE.Color('grey')
+    })
+  , cloudMaterial = new THREE.MeshPhongMaterial({
+        map: new THREE.Texture(cloudMap)
+      , side: THREE.DoubleSide
+      , opacity: 0.8
+      , transparent: true
+      , depthWrite: false
+    })
+  , starMaterial = new THREE.MeshBasicMaterial({
+        map: starMap
+      , side: THREE.BackSide
+    })
   , spriteMaterialTemplate = {
         map: usualSpriteTexture
       , blending: THREE.AdditiveBlending
@@ -47,6 +77,11 @@ const
           , opacity: config.top100SpriteOpacityBeginEnd
         })
     )
+
+    //// Meshes.
+  , earthMesh = new THREE.Mesh(earthGeometry, earthMaterial)
+  , cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial)
+  , starMesh = new THREE.Mesh(starGeometry, starMaterial)
 
     //// Capture.
   , capture = new THREEcap({
@@ -89,7 +124,13 @@ let module; export default module = {
     	composer.addPass( new THREE.RenderPass(scene, camera) )
     	composer.addPass(copyPass)
         scene.add(camera)
+        scene.add(ambientLight)
+    	directionalLight.position.set(5,3,5)
+    	scene.add(directionalLight)
         scene.add(globe)
+        scene.add(earthMesh)
+        // scene.add(cloudMesh)
+        scene.add(starMesh)
         document.body.appendChild(renderer.domElement)
 
         //// Add a ‘usual’ sprite for every location in the data.
