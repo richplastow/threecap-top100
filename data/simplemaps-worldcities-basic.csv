@@ -1321,7 +1321,6 @@ Belleville,Belleville,44.16666974,-77.38334924,43990,Canada,CA,CAN,Ontario
 Sarnia,Sarnia,42.96663963,-82.3999681,113585,Canada,CA,CAN,Ontario
 Peterborough,Peterborough,44.29996909,-78.33326542,79752,Canada,CA,CAN,Ontario
 Oshawa,Oshawa,43.87999473,-78.84997807,349476,Canada,CA,CAN,Ontario
-London,London,42.9699986,-81.24998661,340900,Canada,CA,CAN,Ontario
 Kitchener,Kitchener,43.44999514,-80.50000655,413056.5,Canada,CA,CAN,Ontario
 New Liskeard,New Liskeard,47.50000633,-79.66664657,5203,Canada,CA,CAN,Ontario
 Brockville,Brockville,44.5892796,-75.69531275,25172,Canada,CA,CAN,Ontario
@@ -1343,7 +1342,6 @@ St-Augustin,St-Augustin,51.2423102,-58.64699935,3961,Canada,CA,CAN,Québec
 Rouyn-Noranda,Rouyn-Noranda,48.25001223,-79.03324854,24312.5,Canada,CA,CAN,Québec
 La Sarre,La Sarre,48.8000045,-79.20003422,6366.5,Canada,CA,CAN,Québec
 New Glasgow,New Glasgow,45.58327578,-62.63331934,19883.5,Canada,CA,CAN,Nova Scotia
-Liverpool,Liverpool,44.03995913,-64.72001367,4331,Canada,CA,CAN,Nova Scotia
 Amherst,Amherst,45.81656903,-64.21658187,8631.5,Canada,CA,CAN,Nova Scotia
 Baddeck,Baddeck,46.09998842,-60.75397669,852,Canada,CA,CAN,Nova Scotia
 Deer Lake,Deer Lake,49.17440025,-57.42691878,3953,Canada,CA,CAN,Newfoundland and Labrador
@@ -1514,7 +1512,6 @@ Timmins,Timmins,48.46658815,-81.33331486,33937.5,Canada,CA,CAN,Ontario
 North Bay,North Bay,46.30000205,-79.44999313,45988.5,Canada,CA,CAN,Ontario
 Kuujjuarapik,Kuujjuarapik,55.28149518,-77.76583236,1243,Canada,CA,CAN,Québec
 Kuujjuaq,Kuujjuaq,58.10000531,-68.39999577,1273,Canada,CA,CAN,Québec
-Sydney,Sydney,46.06611452,-60.17998071,37538,Canada,CA,CAN,Nova Scotia
 Labrador City,Labrador City,52.94143129,-66.91587447,8840,Canada,CA,CAN,Newfoundland and Labrador
 Winnipeg,Winnipeg,49.88298749,-97.16599186,603688,Canada,CA,CAN,Manitoba
 Churchill,Churchill,58.76598533,-94.1659941,961.5,Canada,CA,CAN,Manitoba
@@ -1659,7 +1656,6 @@ Coihaique,Coihaique,-45.56999754,-72.07000431,43221,Chile,CL,CHL,Aisén del Gene
 Arica,Arica,-18.50002195,-70.28998377,178446.5,Chile,CL,CHL,Arica y Parinacota
 Copiapo,Copiapo,-27.35999795,-70.33998071,117316.5,Chile,CL,CHL,Atacama
 La Serena,La Serena,-29.89999795,-71.24997685,151290,Chile,CL,CHL,Coquimbo
-Los Angeles,Los Angeles,-37.46000161,-72.35998661,135334.5,Chile,CL,CHL,Bío-Bío
 Punta Arenas,Punta Arenas,-53.16498615,-70.93999577,106296,Chile,CL,CHL,Magallanes y Antártica Chilena
 Iquique,Iquique,-20.24999266,-70.12996769,223012,Chile,CL,CHL,Tarapacá
 Antofagasta,Antofagasta,-23.64999184,-70.40000289,295539,Chile,CL,CHL,Antofagasta
@@ -6336,7 +6332,6 @@ Greeley,Greeley,40.41919822,-104.739974,106142.5,United States of America,US,USA
 Tonopah,Tonopah,38.06699038,-117.2289791,1993,United States of America,US,USA,Nevada
 Deming,Deming,32.26109153,-107.7557848,15523,United States of America,US,USA,New Mexico
 Truth or Consequences,Truth or Consequences,33.13359641,-107.2528956,6479,United States of America,US,USA,New Mexico
-Las Vegas,Las Vegas,35.59701194,-105.2225027,15521,United States of America,US,USA,New Mexico
 Farmington,Farmington,36.75415061,-108.1860944,42917.5,United States of America,US,USA,New Mexico
 Springfield,Springfield,44.05194806,-122.9780339,55531.5,United States of America,US,USA,Oregon
 Tillamook,Tillamook,45.45524742,-123.8425031,6351.5,United States of America,US,USA,Oregon
@@ -6404,7 +6399,6 @@ Montpelier,Montpelier,44.25997154,-72.57581323,8183,United States of America,US,
 Auburn,Auburn,32.60970074,-85.48083948,61881,United States of America,US,USA,Alabama
 Florence,Florence,34.79969627,-87.67724288,40806.5,United States of America,US,USA,Alabama
 Winter Haven,Winter Haven,28.02191876,-81.73300623,68435,United States of America,US,USA,Florida
-Melbourne,Melbourne,28.08331036,-80.60832035,170870,United States of America,US,USA,Florida
 Homestead,Homestead,25.46830202,-80.47778569,60673,United States of America,US,USA,Florida
 Sanford,Sanford,28.78995974,-81.27998478,189374.5,United States of America,US,USA,Florida
 Miami Beach,Miami Beach,25.80991953,-80.13178111,248538,United States of America,US,USA,Florida
@@ -6441,7 +6435,6 @@ South Bend,South Bend,41.68330711,-86.25001734,171791,United States of America,U
 New Albany,New Albany,38.3108773,-85.82128382,78381.5,United States of America,US,USA,Indiana
 Elkhart,Elkhart,41.68294537,-85.96879419,100295,United States of America,US,USA,Indiana
 Hopkinsville,Hopkinsville,36.86548749,-87.4886239,31630,United States of America,US,USA,Kentucky
-London,London,37.12888226,-84.08335372,7844,United States of America,US,USA,Kentucky
 Madisonville,Madisonville,37.33274579,-87.5022148,20858.5,United States of America,US,USA,Kentucky
 Rocky Mount,Rocky Mount,35.93799888,-77.79076624,57179,United States of America,US,USA,North Carolina
 Salisbury,Salisbury,35.67078005,-80.4744784,33907,United States of America,US,USA,North Carolina
@@ -6711,7 +6704,6 @@ Apalachicola,Apalachicola,29.72561322,-84.99252303,2134,United States of America
 Vero Beach,Vero Beach,27.64225201,-80.39112431,51650.5,United States of America,US,USA,Florida
 Valdosta,Valdosta,30.8328583,-83.27859664,53420,United States of America,US,USA,Georgia
 Albany,Albany,31.57873008,-84.15582992,82280,United States of America,US,USA,Georgia
-Athens,Athens,33.96129783,-83.3780221,78017.5,United States of America,US,USA,Georgia
 Macon,Macon,32.85038373,-83.63004806,104932.5,United States of America,US,USA,Georgia
 Columbus,Columbus,32.47043276,-84.98001734,202225,United States of America,US,USA,Georgia
 Douglas,Douglas,31.50777834,-82.85068994,12159,United States of America,US,USA,Georgia
@@ -6756,7 +6748,6 @@ Asheville,Asheville,35.60119773,-82.55414474,105775,United States of America,US,
 Winston-Salem,Winston-Salem,36.10543052,-80.25999536,237491.5,United States of America,US,USA,North Carolina
 Kitty Hawk,Kitty Hawk,36.07731854,-75.70471786,2109.5,United States of America,US,USA,North Carolina
 Akron,Akron,41.07039878,-81.51999597,451155,United States of America,US,USA,Ohio
-Lima,Lima,40.74287355,-84.10526453,54135,United States of America,US,USA,Ohio
 Oak Ridge,Oak Ridge,36.01065594,-84.26972477,30471.5,United States of America,US,USA,Tennessee
 Murfreesboro,Murfreesboro,35.84596315,-86.39026717,100237,United States of America,US,USA,Tennessee
 Clarksville,Clarksville,36.5300816,-87.35943282,122115,United States of America,US,USA,Tennessee
@@ -6874,7 +6865,6 @@ Providence,Providence,41.82110231,-71.4149797,663726.5,United States of America,
 Birmingham,Birmingham,33.53000633,-86.82499516,670142,United States of America,US,USA,Alabama
 Mobile,Mobile,30.68002525,-88.04998499,221870,United States of America,US,USA,Alabama
 Pensacola,Pensacola,30.42112632,-87.21693506,145319.5,United States of America,US,USA,Florida
-St. Petersburg,St. Petersburg,27.77053876,-82.67938257,523314.5,United States of America,US,USA,Florida
 Biloxi,Biloxi,30.39580487,-88.88530868,43857,United States of America,US,USA,Mississippi
 Springfield,Springfield,39.82000999,-89.65001652,125345,United States of America,US,USA,Illinois
 Frankfort,Frankfort,38.2008065,-84.87335718,32214.5,United States of America,US,USA,Kentucky

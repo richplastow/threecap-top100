@@ -64,7 +64,7 @@ for (let iso3 in citiesBySize) {
     es6.push(`// ${iso3}`)
     for (let i=0; i<citiesBySize[iso3].length; i++) {
         const [ pop, city, x, y, z, lat, lon, overtourism ] = citiesBySize[iso3][i]
-        if (1000000 > pop) continue // ignore smaller cities
+        // if (1000000 > pop) continue // ignore smaller cities
         // let overtourism = ~~(Math.random()*1000)
         // overtourism = 100 < overtourism ? 0 : overtourism
         es6.push(

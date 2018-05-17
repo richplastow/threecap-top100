@@ -24,18 +24,40 @@ const
   , cloudGeometry = new THREE.SphereGeometry(100, 64, 64)
   , starGeometry  = new THREE.SphereGeometry(500, 12, 12)
   , sprites = []
+  , top3Sprites = []
+  , top7Sprites = []
+  , top20Sprites = []
+  , arabianSprites = []
+  , indianSprites = []
+  , asianSprites = []
+  , americanSprites = []
   , top100Sprites = []
+  , specialSprites = []
+  , specialSpriteMaterials = []
 
     //// Lights.
   , ambientLight = new THREE.AmbientLight(0xaaaab0)
   , directionalLight = new THREE.DirectionalLight(0xcccc99, 0.5)
 
     //// Textures.
-  , earthMap = THREE.ImageUtils.loadTexture('images/1024_earth_daymap.jpg')
-  , earthBumpMap = THREE.ImageUtils.loadTexture('images/1024_earth_normal_map.png')
-  , earthSpecularMap = THREE.ImageUtils.loadTexture('images/1024_earth_specular_map.png')
-  , cloudMap = THREE.ImageUtils.loadTexture('images/1024_earth_clouds.jpg')
-  , starMap = THREE.ImageUtils.loadTexture('images/1024_stars_milky_way.jpg')
+  // , earthMap = THREE.ImageUtils.loadTexture('images/1024_earth_daymap.jpg')
+  // , earthBumpMap = THREE.ImageUtils.loadTexture('images/512_earth_normal_map.png')
+  // , earthSpecularMap = THREE.ImageUtils.loadTexture('images/512_earth_specular_map.png')
+  // , cloudMap = THREE.ImageUtils.loadTexture('images/2048_earth_clouds.jpg')
+  // , starMap = THREE.ImageUtils.loadTexture('images/512_stars_milky_way.jpg')
+
+  // , earthMap = THREE.ImageUtils.loadTexture('images/512_earth_daymap.jpg')
+  // , earthBumpMap = THREE.ImageUtils.loadTexture('images/512_earth_normal_map.png')
+  // , earthSpecularMap = THREE.ImageUtils.loadTexture('images/512_earth_specular_map.png')
+  // , cloudMap = THREE.ImageUtils.loadTexture('images/512_earth_clouds.jpg')
+  // , starMap = THREE.ImageUtils.loadTexture('images/1024_stars_milky_way.jpg')
+
+  , earthMap = THREE.ImageUtils.loadTexture('images/4096_earth_daymap.jpg')
+  , earthBumpMap = THREE.ImageUtils.loadTexture('images/2048_earth_normal_map.png')
+  , earthSpecularMap = THREE.ImageUtils.loadTexture('images/2048_earth_specular_map.png')
+  , cloudMap = THREE.ImageUtils.loadTexture('images/4096_earth_clouds.jpg')
+  , starMap = THREE.ImageUtils.loadTexture('images/2048_stars_milky_way.jpg')
+
   , usualSpriteTexture = new THREE.CanvasTexture(
         document.getElementById('usual-sprite')
     )
@@ -67,7 +89,7 @@ const
     })
   , spriteMaterialTemplate = {
         map: usualSpriteTexture
-      , blending: THREE.AdditiveBlending
+      // , blending: THREE.AdditiveBlending
       , depthTest: true
       , transparent: true
       , opacity: config.usualSpriteOpacityBeginEnd
@@ -77,6 +99,69 @@ const
         Object.assign({}, spriteMaterialTemplate)
     )
   , top100SpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , top3SpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , top7SpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , top20SpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , arabianSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , indianSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , asianSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , americanSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , xx = specialSpriteMaterials[1] = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: top100SpriteTexture
+          , opacity: config.top100SpriteOpacityBeginEnd
+        })
+    )
+  , xxx = specialSpriteMaterials[2] = new THREE.SpriteMaterial(
         Object.assign({}, spriteMaterialTemplate, {
             fog: false
           , map: top100SpriteTexture
@@ -117,9 +202,26 @@ let module; export default module = {
   , captureui
 
   , usualSpriteMaterial
-  , top100SpriteMaterial
+  , top3SpriteMaterial
+  , top7SpriteMaterial
+  , top20SpriteMaterial
+  , arabianSpriteMaterial
+  , indianSpriteMaterial
+  , asianSpriteMaterial
+  , americanSpriteMaterial
 
+  , top100SpriteMaterial
+  , specialSpriteMaterials
+
+  , top3Sprites
+  , top7Sprites
+  , top20Sprites
+  , arabianSprites
+  , indianSprites
+  , asianSprites
+  , americanSprites
   , top100Sprites
+  , specialSprites
 
     //// Sets up the scene - should be called only once.
   , init () {
@@ -164,27 +266,87 @@ let module; export default module = {
         scene.add(starMesh)
         document.body.appendChild(renderer.domElement)
 
-        //// Add a ‘usual’ sprite for every location in the data.
+        //// Add a sprites for some locations in the data.
         for (let i=1; i<data.length; i++) { // i=1, ignore header line
             const [ pop, city, x, y, z, lat, lon, overtourism ] = data[i]
             const scale = ( Math.log(pop) / 8 ) // eg 2.27 for a million, 1.15 for 10000
               + overtourism // show cities suffering from overtourism bigger
             if (overtourism) {
-                const top100Sprite = new THREE.Sprite(top100SpriteMaterial)
-                top100Sprite.position.set(x, y, z)
-                top100Sprite.scale.set(scale, scale, scale)
-                top100Sprite.basicScale = scale
-                sprites.push(top100Sprite)
-                top100Sprites.push(top100Sprite)
-                globe.add(top100Sprite)
+                let sprite
+                if ('Venice' === city) {
+                    sprite = new THREE.Sprite(specialSpriteMaterials[1])
+                    specialSprites[1] = sprite
+                } else if ('Barcelona' === city && 3000000 < pop) {
+                    sprite = new THREE.Sprite(specialSpriteMaterials[2])
+                    specialSprites[2] = sprite
+                } else if ('Amsterdam' === city || 'Reykjavík' === city || 'Dubrovnik' === city) {
+                    sprite = new THREE.Sprite(top3SpriteMaterial)
+                    top3Sprites.push(sprite)
+                } else if (
+                    -1 < 'Bucharest,Milan,Nantes,Kiev,Rome,Toulouse,Lille'.split(',').indexOf(city)
+                ) {
+                    sprite = new THREE.Sprite(top7SpriteMaterial)
+                    top7Sprites.push(sprite)
+                } else if (
+                    -1 < ('Warsaw,Prague,København,Edinburgh,Antwerpen'
+                      + ',Frankfurt,Bern,Madrid,Palma,Paris'
+                      + ',Oslo,Geneva,Göteborg,London,Lerwick,Budapest,Athens'
+                      + ',Berlin,San Sebastián'
+                    ).split(',').indexOf(city)
+                ) {
+                    sprite = new THREE.Sprite(top20SpriteMaterial)
+                    top20Sprites.push(sprite)
+                } else if (
+                    -1 < ('Tel Aviv-Yafo,Johannesburg,Nairobi,Istanbul,Jeddah'
+                      + ',Amman,Cairo,Marrakesh,Beirut,Muscat'
+                      + ''
+                    ).split(',').indexOf(city)
+                ) {
+                    sprite = new THREE.Sprite(arabianSpriteMaterial)
+                    arabianSprites.push(sprite)
+                } else if (
+                    -1 < ('Mumbai,Moscow,Colombo,New Delhi,St. Petersburg'
+                      + ',Kathmandu'
+                      + ''
+                    ).split(',').indexOf(city)
+                ) {
+                    sprite = new THREE.Sprite(indianSpriteMaterial)
+                    indianSprites.push(sprite)
+                } else if (
+                    -1 < ('Hanoi,Guangzhou,Phnom Penh,Beijing,Kuala Lumpur'
+                      + ',Manila,Bangkok,Hong Kong,Sydney,Taipei,Auckland'
+                      + ',Melbourne,Seoul,Chengdu,Denpasar,Tokyo,Macau,Jakarta'
+                      + ',Phuket,Shanghai'
+                    ).split(',').indexOf(city)
+                ) {
+                    sprite = new THREE.Sprite(asianSpriteMaterial)
+                    asianSprites.push(sprite)
+                } else if (
+                    -1 < ('New York,Mexico City,Sao Paulo,Bogota,Rio de Janeiro'
+                      + ',Buenos Aires,Las Vegas,Los Angeles,Toronto,Miami'
+                      + ''
+                    ).split(',').indexOf(city)
+                ) {
+                    sprite = new THREE.Sprite(americanSpriteMaterial)
+                    americanSprites.push(sprite)
+                } else {
+                    sprite = new THREE.Sprite(top100SpriteMaterial)
+                    top100Sprites.push(sprite)
+                }
+                sprite.position.set(x, y, z)
+                sprite.scale.set(scale, scale, scale)
+                sprite.basicScale = scale
+                sprites.push(sprite)
+                globe.add(sprite)
             } else {
-                const usualSprite = new THREE.Sprite(usualSpriteMaterial)
-                usualSprite.position.set(x, y, z)
-                usualSprite.scale.set(scale, scale, scale)
-                sprites.push(usualSprite)
-                globe.add(usualSprite)
+                // const usualSprite = new THREE.Sprite(usualSpriteMaterial)
+                // usualSprite.position.set(x, y, z)
+                // usualSprite.scale.set(scale, scale, scale)
+                // sprites.push(usualSprite)
+                // globe.add(usualSprite)
             }
         }
+
 
     }
 

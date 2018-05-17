@@ -6,7 +6,7 @@ const
     previewWidth = 854
   , previewHeight = 480
   , previewFps = 25
-  , previewDuration = 8000 // in ms
+  , previewDuration = 16000 // in ms
 
   , captureWidth = 1920
   , captureHeight = 1080
@@ -42,8 +42,12 @@ let module; export default module = {
   , usualSpriteOpacityFlying    : 1
   , top100SpriteOpacityBeginEnd : 0
   , top100SpriteOpacityFlying   : 1
+  , arabianSpriteScaleFlying    : 1.5
+  , indianSpriteScaleFlying     : 1.5
+  , asianSpriteScaleFlying      : 1.1
+  , americanSpriteScaleFlying   : 1.5
   , top100SpriteScaleBeginEnd   : 0
-  , top100SpriteScaleFlying     : 1.2
+  , top100SpriteScaleFlying     : 0.8
 
   , pixelRatio: window.devicePixelRatio || 0
 
