@@ -41,7 +41,7 @@ for (let i=0; i<csv1.length; i++) {
     // if (10000 > pop) continue // ignore smaller cities
     iso3 = 'United States of America' === iso3 ? 'USA' : iso3 // simplemaps error
     citiesBySize[iso3] = citiesBySize[iso3] || []
-    const { x, y, z } = latLonToXYZ(lat, lon, 100)
+    const { x, y, z } = latLonToXYZ(lat, lon, 100.5)
     let overtourism = 0
     if (overtourismScores[city_ascii] && overtourismScores[city_ascii].country === country) {
         if (averageOvertourismScore < overtourismScores[city_ascii].overtourism)

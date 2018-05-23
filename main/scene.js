@@ -39,24 +39,19 @@ const
   , ambientLight = new THREE.AmbientLight(0xaaaab0)
   , directionalLight = new THREE.DirectionalLight(0xcccc99, 0.5)
 
-    //// Textures.
-  // , earthMap = THREE.ImageUtils.loadTexture('images/1024_earth_daymap.jpg')
-  // , earthBumpMap = THREE.ImageUtils.loadTexture('images/512_earth_normal_map.png')
-  // , earthSpecularMap = THREE.ImageUtils.loadTexture('images/512_earth_specular_map.png')
-  // , cloudMap = THREE.ImageUtils.loadTexture('images/2048_earth_clouds.jpg')
-  // , starMap = THREE.ImageUtils.loadTexture('images/512_stars_milky_way.jpg')
+    //// Textures - for fast development:
+  , earthMap = THREE.ImageUtils.loadTexture('images/1024_earth_daymap.jpg')
+  , earthBumpMap = THREE.ImageUtils.loadTexture('images/512_earth_normal_map.png')
+  , earthSpecularMap = THREE.ImageUtils.loadTexture('images/512_earth_specular_map.png')
+  , cloudMap = THREE.ImageUtils.loadTexture('images/1024_earth_clouds.jpg')
+  , starMap = THREE.ImageUtils.loadTexture('images/512_stars_milky_way.jpg')
 
-  // , earthMap = THREE.ImageUtils.loadTexture('images/512_earth_daymap.jpg')
-  // , earthBumpMap = THREE.ImageUtils.loadTexture('images/512_earth_normal_map.png')
-  // , earthSpecularMap = THREE.ImageUtils.loadTexture('images/512_earth_specular_map.png')
-  // , cloudMap = THREE.ImageUtils.loadTexture('images/512_earth_clouds.jpg')
-  // , starMap = THREE.ImageUtils.loadTexture('images/1024_stars_milky_way.jpg')
-
-  , earthMap = THREE.ImageUtils.loadTexture('images/4096_earth_daymap.jpg')
-  , earthBumpMap = THREE.ImageUtils.loadTexture('images/2048_earth_normal_map.png')
-  , earthSpecularMap = THREE.ImageUtils.loadTexture('images/2048_earth_specular_map.png')
-  , cloudMap = THREE.ImageUtils.loadTexture('images/4096_earth_clouds.jpg')
-  , starMap = THREE.ImageUtils.loadTexture('images/2048_stars_milky_way.jpg')
+    //// Textures - for final render with a fast GPU:
+  // , earthMap = THREE.ImageUtils.loadTexture('images/4096_earth_daymap.jpg')
+  // , earthBumpMap = THREE.ImageUtils.loadTexture('images/2048_earth_normal_map.png')
+  // , earthSpecularMap = THREE.ImageUtils.loadTexture('images/2048_earth_specular_map.png')
+  // , cloudMap = THREE.ImageUtils.loadTexture('images/4096_earth_clouds.jpg')
+  // , starMap = THREE.ImageUtils.loadTexture('images/2048_stars_milky_way.jpg')
 
   , usualSpriteTexture = new THREE.CanvasTexture(
         document.getElementById('usual-sprite')
@@ -80,7 +75,7 @@ const
       , opacity: 1.0
       , blending: THREE.AdditiveBlending
       , transparent: true
-      , depthWrite: false
+      , 1e20: false
     })
   , starMaterial = new THREE.MeshBasicMaterial({
         map: starMap
@@ -94,6 +89,11 @@ const
       , transparent: true
       , opacity: config.usualSpriteOpacityBeginEnd
       , fog: true
+
+      //// Always in front
+      // , depthWrite: false
+      // , depthTest: false
+
     }
   , usualSpriteMaterial = new THREE.SpriteMaterial(
         Object.assign({}, spriteMaterialTemplate)
@@ -258,6 +258,7 @@ let module; export default module = {
         // atmosMaterial.uniforms.coeficient.value	= 0.8
         // atmosMaterial.uniforms.power.value = 2.0
         // atmosMesh.scale.multiplyScalar(1.01)
+        // earthMesh.renderDepth = 1e20
     	scene.add(directionalLight)
         scene.add(globe)
         // scene.add(atmosMesh)
