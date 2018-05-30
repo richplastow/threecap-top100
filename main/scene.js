@@ -6,8 +6,11 @@ import state from  './state.js'
 
 const
 
+    //// DOM Elements.
+    $audio = document.querySelector('audio')
+
     //// Objects for rendering.
-    clock = new THREE.Clock()
+  , clock = new THREE.Clock()
   , scene = new THREE.Scene()
   , camera = new THREE.PerspectiveCamera(
         35, config.previewWidth/config.previewHeight, 0.1, 1000)
@@ -19,7 +22,6 @@ const
 
     //// Object3Ds.
   , globe = new THREE.Object3D() // dot-sprites are attached to this
-  // , atmosGeometry = new THREE.SphereGeometry(99.5, 64, 64)
   , earthGeometry = new THREE.SphereGeometry(99, 128, 128)
   , cloudGeometry = new THREE.SphereGeometry(100, 64, 64)
   , starGeometry  = new THREE.SphereGeometry(500, 12, 12)
@@ -40,10 +42,10 @@ const
   , directionalLight = new THREE.DirectionalLight(0xcccc99, 0.5)
 
     //// Textures - for fast development:
-  , earthMap = THREE.ImageUtils.loadTexture('images/1024_earth_daymap.jpg')
+  , earthMap = THREE.ImageUtils.loadTexture('images/512_earth_daymap.jpg')
   , earthBumpMap = THREE.ImageUtils.loadTexture('images/512_earth_normal_map.png')
   , earthSpecularMap = THREE.ImageUtils.loadTexture('images/512_earth_specular_map.png')
-  , cloudMap = THREE.ImageUtils.loadTexture('images/1024_earth_clouds.jpg')
+  , cloudMap = THREE.ImageUtils.loadTexture('images/512_earth_clouds.jpg')
   , starMap = THREE.ImageUtils.loadTexture('images/512_stars_milky_way.jpg')
 
     //// Textures - for final render with a fast GPU:
@@ -60,8 +62,17 @@ const
         document.getElementById('top100-sprite')
     )
 
+  , fromTextSpriteTexture = new THREE.CanvasTexture(
+        document.getElementById('from-text-sprite')
+    )
+  , toTextSpriteTexture = new THREE.CanvasTexture(
+        document.getElementById('to-text-sprite')
+    )
+  , fromAndToSpriteTexture = new THREE.CanvasTexture(
+        document.getElementById('from-and-to-sprite')
+    )
+
     //// Materials.
-  // , atmosMaterial = THREEx.createAtmosphereMaterial()
   , earthMaterial = new THREE.MeshPhongMaterial({
         map: earthMap
       , bumpMap: earthBumpMap
@@ -75,7 +86,6 @@ const
       , opacity: 1.0
       , blending: THREE.AdditiveBlending
       , transparent: true
-      , 1e20: false
     })
   , starMaterial = new THREE.MeshBasicMaterial({
         map: starMap
@@ -91,8 +101,8 @@ const
       , fog: true
 
       //// Always in front
-      // , depthWrite: false
-      // , depthTest: false
+      , depthWrite: false
+      , depthTest: false
 
     }
   , usualSpriteMaterial = new THREE.SpriteMaterial(
@@ -169,11 +179,51 @@ const
         })
     )
 
+
+  , fromTextSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: fromTextSpriteTexture
+          , opacity: config.fromTextSpriteOpacityVeryBegin
+          , blending: THREE.AdditiveBlending
+        })
+    )
+  , toTextSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: toTextSpriteTexture
+          , opacity: config.toTextSpriteOpacityFlying
+          , blending: THREE.AdditiveBlending
+        })
+    )
+  , fromSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: fromAndToSpriteTexture
+          , opacity: config.fromSpriteOpacityBegin
+        })
+    )
+  , toSpriteMaterial = new THREE.SpriteMaterial(
+        Object.assign({}, spriteMaterialTemplate, {
+            fog: false
+          , map: fromAndToSpriteTexture
+          , opacity: config.toSpriteOpacityBegin
+        })
+    )
+
+
     //// Meshes.
-  // , atmosMesh = new THREE.Mesh(atmosGeometry, atmosMaterial)
   , earthMesh = new THREE.Mesh(earthGeometry, earthMaterial)
   , cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial)
   , starMesh = new THREE.Mesh(starGeometry, starMaterial)
+
+
+    //// Sprites.
+  , fromTextSprite = new THREE.Sprite(fromTextSpriteMaterial)
+  , toTextSprite = new THREE.Sprite(toTextSpriteMaterial)
+  , fromSprite = new THREE.Sprite(fromSpriteMaterial)
+  , toSprite = new THREE.Sprite(toSpriteMaterial)
+
 
     //// Capture.
   , capture = new THREEcap({
@@ -194,7 +244,9 @@ scene.fog = new THREE.FogExp2(0x002060, 0.004) // RT: rgb(0, 90, 83)
 
 let module; export default module = {
 
-    copyPass
+    $audio
+
+  , copyPass
   , renderer
   , composer
   , clock
@@ -213,6 +265,11 @@ let module; export default module = {
   , top100SpriteMaterial
   , specialSpriteMaterials
 
+  , fromTextSpriteMaterial
+  , toTextSpriteMaterial
+  , fromSpriteMaterial
+  , toSpriteMaterial
+
   , top3Sprites
   , top7Sprites
   , top20Sprites
@@ -222,6 +279,11 @@ let module; export default module = {
   , americanSprites
   , top100Sprites
   , specialSprites
+
+  , fromTextSprite
+  , toTextSprite
+  , fromSprite
+  , toSprite
 
     //// Sets up the scene - should be called only once.
   , init () {
@@ -254,24 +316,28 @@ let module; export default module = {
         // directionalLight.shadow.camera.far = 500     // default is 500
         // earthMesh.receiveShadow = true
         // earthMaterial.shading = THREE.SmoothShading
-        // atmosMaterial.uniforms.glowColor.value.set(0x00b3ff)
-        // atmosMaterial.uniforms.coeficient.value	= 0.8
-        // atmosMaterial.uniforms.power.value = 2.0
-        // atmosMesh.scale.multiplyScalar(1.01)
-        // earthMesh.renderDepth = 1e20
     	scene.add(directionalLight)
         scene.add(globe)
-        // scene.add(atmosMesh)
         scene.add(earthMesh)
         scene.add(cloudMesh)
         scene.add(starMesh)
         document.body.appendChild(renderer.domElement)
+
+        globe.add(fromSprite)
+        globe.add(toSprite)
+        globe.add(fromTextSprite)
+        globe.add(toTextSprite)
+        fromTextSprite.scale.set(40,40,40)
+        toTextSprite.scale.set(40,40,40)
+        fromSprite.origScale = fromSprite.scale.x
+        toSprite.origScale = toSprite.scale.x
 
         //// Add a sprites for some locations in the data.
         for (let i=1; i<data.length; i++) { // i=1, ignore header line
             const [ pop, city, x, y, z, lat, lon, overtourism ] = data[i]
             const scale = ( Math.log(pop) / 8 ) // eg 2.27 for a million, 1.15 for 10000
               + overtourism // show cities suffering from overtourism bigger
+/*
             if (overtourism) {
                 let sprite
                 if ('Venice' === city) {
@@ -346,6 +412,7 @@ let module; export default module = {
                 // sprites.push(usualSprite)
                 // globe.add(usualSprite)
             }
+*/
         }
 
 

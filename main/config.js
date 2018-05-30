@@ -6,7 +6,7 @@ const
     previewWidth = 854
   , previewHeight = 480
   , previewFps = 25
-  , previewDuration = 32000 // in ms
+  , previewDuration = 8000 // in ms
 
   , captureWidth = 1920
   , captureHeight = 1080
@@ -38,17 +38,28 @@ let module; export default module = {
     //// Visual.
   , fromTextLonOffset: 8
   , toTextLonOffset  : 14
+  , fromTextSpriteOpacityVeryBegin : 0
+  , fromTextSpriteOpacityNearBegin : 1
+  , fromTextSpriteOpacityFlying    : 0
+  , toTextSpriteOpacityFlying   : 0
+  , toTextSpriteOpacityNearEnd  : 1
+  , toTextSpriteOpacityVeryEnd  : 0
+
   , usualSpriteOpacityBeginEnd  : 0
   , usualSpriteOpacityFlying    : 1
   , top100SpriteOpacityBeginEnd : 0
   , top100SpriteOpacityFlying   : 1
 
+  , fromSpriteOpacityBegin      : 1
+  , toSpriteOpacityBegin        : 0
+  , toSpriteOpacityEnd          : 1
+
   , top100SpriteScaleBeginEnd   : 0
-  , top100SpriteScaleFlying     : 0.5
-  , arabianSpriteScaleFlying    : 0.5
-  , indianSpriteScaleFlying     : 0.4
-  , asianSpriteScaleFlying      : 0.4
-  , americanSpriteScaleFlying   : 0.5
+  , top100SpriteScaleFlying     : 0//0.5
+  , arabianSpriteScaleFlying    : 0//0.5
+  , indianSpriteScaleFlying     : 0//0.4
+  , asianSpriteScaleFlying      : 0//0.4
+  , americanSpriteScaleFlying   : 0//0.5
 
   , pixelRatio: window.devicePixelRatio || 0
 

@@ -1,4 +1,9 @@
 city,city_ascii,lat,lng,pop,country,iso2,iso3,province
+Gili Trawangan, Gili Trawangan,-8.3483,116.0384,3500,Indonesia,ID,IDN,West Nusa Tenggara
+Koh Phi Phi,Koh Phi Phi,7.6805,98.7688,2500,Thailand,TH,THA,Ao Nang
+Japan,Japan,35.68501691,139.7514074,22006299.5,9000000,Japan,JP,JPN,Tokyo
+Yosemite,Yosemite,37.4849,-119.9663,2173,United States of America,US,USA,California
+Skye,Skye,57.4125,-6.1960,4150,United Kingdom,GB,GBR,Highland
 Qal eh-ye Now,Qal eh-ye,34.98300013,63.13329964,2997,Afghanistan,AF,AFG,Badghis
 Chaghcharan,Chaghcharan,34.5167011,65.25000063,15000,Afghanistan,AF,AFG,Ghor
 Lashkar Gah,Lashkar Gah,31.58299802,64.35999955,201546,Afghanistan,AF,AFG,Hilmand

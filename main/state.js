@@ -14,4 +14,7 @@ let module; export default module = {
           , alt: 0
         }
     }
+  , fromData: null
+  , toData: null
+  , audio: 'stopped'
 }

@@ -44,6 +44,13 @@
 
 
 
+<!-- AUDIO -->
+
+<audio src="audio/1-thailand-example.mp3" controls></audio>
+
+
+
+
 <!-- HEADER -->
 
 <h1>Threecap Top 100</h1>
@@ -53,6 +60,39 @@
   <a href="https://github.com/richplastow/threecap-top100">Repo</a> &nbsp;
   <a href="http://richplastow.com/threecap-top100/">Demo</a>
 </p>
+<input id="from" placeholder="From" value="Bangalore"></input>
+<input id="to"   placeholder="To" value="Nairobi" onkeydown="
+if (13 === event.keyCode) window.restartForPreview()"></input>
+<select>
+  <option value="0">Choose a preset</option>
+  <option value="1" data-duration="8000" data-from="Gili Trawangan" data-to="Koh Phi Phi" data-audio="1-thailand-example.mp3">Gili Trawangan to Koh Phi Phi</option>
+  <option value="2" data-duration="6000" data-from="Koh Phi Phi" data-to="Japan" data-audio="2-japan-example.mp3">Koh Phi Phi to Tokyo (Japan)</option>
+  <option value="3" data-duration="7000" data-from="Japan" data-to="Yosemite" data-audio="3-usa-example-v2.mp3">Japan to Mariposa (Yosemite)</option>
+  <option value="4" data-duration="6500" data-from="Yosemite" data-to="Skye" data-audio="4-isle-of-skye-example.mp3">Yosemite to Portree (Skye)</option>
+  <option value="5" data-duration="12000" data-from="Skye" data-to="" data-audio="5-end-link.mp3">Skye to orbit</option>
+</select>
+<script>{
+    const $select = document.querySelector('select')
+    $select.addEventListener('change', onChange)
+    function onChange () {
+        const
+            value    = $select.value
+          , $el      = $select.querySelector(`option[value='${value}']`)
+          , $from    = document.querySelector('#from')
+          , $to      = document.querySelector('#to')
+          , $audio   = document.querySelector('audio')
+          , from     = $el.getAttribute('data-from')
+          , to       = $el.getAttribute('data-to')
+          , audio    = $el.getAttribute('data-audio')
+          , duration = $el.getAttribute('data-duration')
+        if (0 === +value) return // ‘Choose a preset’
+        $from.value = from
+        $to.value = to
+        $audio.src = 'audio/' + audio
+        window.previewDurationOverride = +duration
+    }
+    onChange()
+}</script>
 <button id="restart-preview">Restart Preview</button>
 <pre id="cli-help"></pre>
 
@@ -81,6 +121,72 @@
   ctx.beginPath()
   ctx.arc(128, 128, 126, 0, Math.PI * 2) // x, y, r, start angle, end angle
   ctx.fill()
+  }()</script>
+
+  <!-- Draw the sprite for ‘from’ and ‘to’ dots -->
+  <canvas id="from-and-to-sprite" width="256" height="256"></canvas>
+  <script>!function(){
+  const ctx = document.getElementById('from-and-to-sprite').getContext('2d')
+  ctx.fillStyle = 'rgb(202,2,45)'
+  ctx.beginPath()
+  ctx.arc(128, 128, 126, 0, Math.PI * 2) // x, y, r, start angle, end angle
+  ctx.fill()
+  }()</script>
+
+  <!-- Draw the sprite for ‘from’ text -->
+  <canvas id="from-text-sprite" width="512" height="512"></canvas>
+  <script>!function(){
+  const ctx = document.getElementById('from-text-sprite').getContext('2d')
+  ctx.fillStyle = '#ffffff'
+  ctx.font = '64px museo_sans500'
+  window.updateFromText = function (text) {
+      if ('Denpasar' === text) text = 'Bali'
+      ctx.clearRect(0,0,512,512)
+      let toppad = 250, leftpad = 100, words = text.split(' ')
+      if ('Koh Phi Phi' === text) {
+          words = ['Koh','Phi Phi']
+      }
+      if ('Yosemite' === text) leftpad = 200
+      if ('Skye' === text) leftpad = 230
+      for (let i=0,y=toppad,line; i<words.length; i++,y+=60) {
+          if (words[i+1] && 7 > words[i].length+words[i+1].length) {
+              line = words[i] + ' ' + words[i+1]
+              i++
+          } else {
+              line = words[i]
+          }
+          ctx.fillText(line.toUpperCase(), leftpad, y)
+      }
+  }
+  }()</script>
+
+  <!-- Draw the sprite for ‘to’ text -->
+  <canvas id="to-text-sprite" width="512" height="512"></canvas>
+  <script>!function(){
+  const ctx = document.getElementById('to-text-sprite').getContext('2d')
+  ctx.fillStyle = '#ffffff'
+  ctx.font = '64px museo_sans500'
+  window.updateToText = function (text) {
+      if ('Cusco' === text) text = 'Machu Picchu'
+      ctx.clearRect(0,0,512,512)
+      let toppad = 250, leftpad = 100, words = text.split(' ')
+      if ('Koh Phi Phi' === text) {
+          leftpad = 0
+          words = ['Koh','Phi Phi']
+      }
+      if ('Japan' === text) leftpad = 30
+      if ('Yosemite' === text) leftpad = 30, toppad = 300
+      if ('Skye' === text) leftpad = 0, toppad = 280
+      for (let i=0,y=toppad,line; i<words.length; i++,y+=60) {
+          if (words[i+1] && 7 > words[i].length+words[i+1].length) {
+              line = words[i] + ' ' + words[i+1]
+              i++
+          } else {
+              line = words[i]
+          }
+          ctx.fillText(line.toUpperCase(), leftpad, y)
+      }
+  }
   }()</script>
 
 </div>
