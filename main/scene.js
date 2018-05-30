@@ -329,8 +329,8 @@ let module; export default module = {
         globe.add(toTextSprite)
         fromTextSprite.scale.set(40,40,40)
         toTextSprite.scale.set(40,40,40)
-        fromSprite.origScale = fromSprite.scale.x
-        toSprite.origScale = toSprite.scale.x
+        fromSprite.origScale = fromSprite.scale.x * 1.3
+        toSprite.origScale = toSprite.scale.x * 1.3
 
         //// Add a sprites for some locations in the data.
         for (let i=1; i<data.length; i++) { // i=1, ignore header line

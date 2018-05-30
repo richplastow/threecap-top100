@@ -69,7 +69,7 @@ if (13 === event.keyCode) window.restartForPreview()"></input>
   <option value="2" data-duration="6000" data-from="Koh Phi Phi" data-to="Japan" data-audio="2-japan-example.mp3">Koh Phi Phi to Tokyo (Japan)</option>
   <option value="3" data-duration="7000" data-from="Japan" data-to="Yosemite" data-audio="3-usa-example-v2.mp3">Japan to Mariposa (Yosemite)</option>
   <option value="4" data-duration="6500" data-from="Yosemite" data-to="Skye" data-audio="4-isle-of-skye-example.mp3">Yosemite to Portree (Skye)</option>
-  <option value="5" data-duration="12000" data-from="Skye" data-to="" data-audio="5-end-link.mp3">Skye to orbit</option>
+  <option value="5" data-duration="120000" data-from="Skye" data-to="" data-audio="5-end-link.mp3">Skye to orbit</option>
 </select>
 <script>{
     const $select = document.querySelector('select')
@@ -124,12 +124,26 @@ if (13 === event.keyCode) window.restartForPreview()"></input>
   }()</script>
 
   <!-- Draw the sprite for ‘from’ and ‘to’ dots -->
-  <canvas id="from-and-to-sprite" width="256" height="256"></canvas>
+  <canvas id="from-and-to-sprite" width="1024" height="1024"></canvas>
   <script>!function(){
   const ctx = document.getElementById('from-and-to-sprite').getContext('2d')
+  // for (let i=0; i<20; i++) {
+  //     ctx.fillStyle = 'rgbs(255,255,255,1)'
+  //     ctx.beginPath()
+  //     ctx.arc(128, 128, 100+i, 0, Math.PI * 2) // x, y, r, start angle, end angle
+  //     ctx.fill()
+  // }
+  ctx.shadowColor = 'white'
+  ctx.shadowOffsetX = 0
+  ctx.shadowOffsetY = 0
+  ctx.shadowBlur = 80
+  ctx.fillStyle = 'rgb(255,255,255)'
+  ctx.beginPath()
+  ctx.arc(512, 512, 400, 0, Math.PI * 2) // x, y, r, start angle, end angle
+  ctx.fill()
   ctx.fillStyle = 'rgb(202,2,45)'
   ctx.beginPath()
-  ctx.arc(128, 128, 126, 0, Math.PI * 2) // x, y, r, start angle, end angle
+  ctx.arc(512, 512, 380, 0, Math.PI * 2) // x, y, r, start angle, end angle
   ctx.fill()
   }()</script>
 
@@ -145,6 +159,7 @@ if (13 === event.keyCode) window.restartForPreview()"></input>
       let toppad = 250, leftpad = 100, words = text.split(' ')
       if ('Koh Phi Phi' === text) {
           words = ['Koh','Phi Phi']
+          leftpad = 125
       }
       if ('Yosemite' === text) leftpad = 200
       if ('Skye' === text) leftpad = 230
